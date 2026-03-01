@@ -1,0 +1,410 @@
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local plr = Players.LocalPlayer
+local pg = plr:WaitForChild("PlayerGui")
+local targetPlaceId = 76124655331395
+local currentPlaceId = game.PlaceId
+if currentPlaceId ~= targetPlaceId then
+local ErrorGui = Instance.new("ScreenGui")
+    ErrorGui.Name = "RobloxErrorGui"
+    ErrorGui.Parent = pg
+    ErrorGui.ResetOnSpawn = false
+    ErrorGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ErrorGui.DisplayOrder = 999999
+    ErrorGui.IgnoreGuiInset = true
+    ErrorGui.Enabled = true
+    local BlackOverlay = Instance.new("Frame")
+    BlackOverlay.Size = UDim2.new(1, 0, 1, 0) 
+    BlackOverlay.Position = UDim2.new(0, 0, 0, 0)
+    BlackOverlay.BackgroundColor3 = Color3.new(0, 0, 0)
+    BlackOverlay.BackgroundTransparency = 0.4
+    BlackOverlay.BorderSizePixel = 0
+    BlackOverlay.Active = true
+    BlackOverlay.Selectable = true
+    BlackOverlay.Parent = ErrorGui
+    local Blocker = Instance.new("TextButton")
+    Blocker.Size = UDim2.new(1, 0, 1, 0)
+    Blocker.Position = UDim2.new(0, 0, 0, 0)
+    Blocker.BackgroundTransparency = 1
+    Blocker.Text = ""
+    Blocker.AutoButtonColor = false
+    Blocker.Parent = ErrorGui
+    Blocker.ZIndex = 0
+    local ErrorFrame = Instance.new("Frame")
+    ErrorFrame.Size = UDim2.new(0, 460, 0, 220)
+    ErrorFrame.Position = UDim2.new(0.5, -230, 0.5, -110)
+    ErrorFrame.BackgroundColor3 = Color3.new(0.196078, 0.196078, 0.196078)
+    ErrorFrame.BorderColor3 = Color3.new(0.105882, 0.105882, 0.105882)
+    ErrorFrame.BorderSizePixel = 1
+    ErrorFrame.Active = true
+    ErrorFrame.Selectable = true
+    ErrorFrame.Parent = ErrorGui
+    ErrorFrame.ZIndex = 10   
+    local RedBar = Instance.new("Frame")
+    RedBar.Size = UDim2.new(1, 0, 0, 4)
+    RedBar.Position = UDim2.new(0, 0, 0, 0)
+    RedBar.BackgroundColor3 = Color3.new(0.827451, 0.164706, 0.164706)
+    RedBar.BorderSizePixel = 0
+    RedBar.Parent = ErrorFrame
+    RedBar.ZIndex = 11    
+    local ErrorIcon = Instance.new("ImageLabel")
+    ErrorIcon.Size = UDim2.new(0, 32, 0, 32)
+    ErrorIcon.Position = UDim2.new(0, 15, 0, 15)
+    ErrorIcon.BackgroundTransparency = 1
+    ErrorIcon.Image = "rbxasset://textures/ui/UIAlert/iconError.png"
+    ErrorIcon.ImageColor3 = Color3.new(0.827451, 0.164706, 0.164706)
+    ErrorIcon.Parent = ErrorFrame
+    ErrorIcon.ZIndex = 11   
+    local ErrorTitle = Instance.new("TextLabel")
+    ErrorTitle.Size = UDim2.new(0, 200, 0, 25)
+    ErrorTitle.Position = UDim2.new(0, 55, 0, 18)
+    ErrorTitle.BackgroundTransparency = 1
+    ErrorTitle.Text = "服务器错误"
+    ErrorTitle.TextColor3 = Color3.new(1, 1, 1)
+    ErrorTitle.TextSize = 18
+    ErrorTitle.TextXAlignment = Enum.TextXAlignment.Left
+    ErrorTitle.Font = Enum.Font.SourceSansBold
+    ErrorTitle.Parent = ErrorFrame
+    ErrorTitle.ZIndex = 11    
+    local ErrorMessage = Instance.new("TextLabel")
+    ErrorMessage.Size = UDim2.new(1, -30, 0, 45)
+    ErrorMessage.Position = UDim2.new(0, 15, 0, 50)
+    ErrorMessage.BackgroundTransparency = 1
+    ErrorMessage.Text = "如果你看到此弹窗说明你加入的服务器不正确，请加入需要的服务器"
+    ErrorMessage.TextColor3 = Color3.new(1, 1, 1)
+    ErrorMessage.TextSize = 14
+    ErrorMessage.TextXAlignment = Enum.TextXAlignment.Left
+    ErrorMessage.TextYAlignment = Enum.TextYAlignment.Top
+    ErrorMessage.TextWrapped = true
+    ErrorMessage.Font = Enum.Font.SourceSans
+    ErrorMessage.Parent = ErrorFrame
+    ErrorMessage.ZIndex = 11   
+    local CurrentContainer = Instance.new("Frame")
+    CurrentContainer.Size = UDim2.new(1, -30, 0, 40)
+    CurrentContainer.Position = UDim2.new(0, 15, 0, 95)
+    CurrentContainer.BackgroundColor3 = Color3.new(0.15, 0.15, 0.18)
+    CurrentContainer.BorderSizePixel = 0
+    CurrentContainer.Parent = ErrorFrame
+    CurrentContainer.ZIndex = 11    
+    local CurrentCorner = Instance.new("UICorner")
+    CurrentCorner.CornerRadius = UDim.new(0, 4)
+    CurrentCorner.Parent = CurrentContainer    
+    local CurrentLabel = Instance.new("TextLabel")
+    CurrentLabel.Size = UDim2.new(1, -10, 1, 0)
+    CurrentLabel.Position = UDim2.new(0, 5, 0, 0)
+    CurrentLabel.BackgroundTransparency = 1
+    CurrentLabel.Text = "当前服务器: " .. currentPlaceId .. " (错误服务器)"
+    CurrentLabel.TextColor3 = Color3.new(0.8, 0.3, 0.3)
+    CurrentLabel.TextSize = 14
+    CurrentLabel.TextXAlignment = Enum.TextXAlignment.Left
+    CurrentLabel.Font = Enum.Font.SourceSansBold
+    CurrentLabel.Parent = CurrentContainer
+    CurrentLabel.ZIndex = 12   
+    local TargetContainer = Instance.new("Frame")
+    TargetContainer.Size = UDim2.new(1, -30, 0, 40)
+    TargetContainer.Position = UDim2.new(0, 15, 0, 140)
+    TargetContainer.BackgroundColor3 = Color3.new(0.15, 0.15, 0.18)
+    TargetContainer.BorderSizePixel = 0
+    TargetContainer.Parent = ErrorFrame
+    TargetContainer.ZIndex = 11    
+    local TargetCorner = Instance.new("UICorner")
+    TargetCorner.CornerRadius = UDim.new(0, 4)
+    TargetCorner.Parent = TargetContainer    
+    local TargetLabel = Instance.new("TextLabel")
+    TargetLabel.Size = UDim2.new(0.7, -10, 1, 0)
+    TargetLabel.Position = UDim2.new(0, 5, 0, 0)
+    TargetLabel.BackgroundTransparency = 1
+    TargetLabel.Text = "需要服务器: " .. targetPlaceId .. " [UPD]🚀矛训练！"
+    TargetLabel.TextColor3 = Color3.new(0.2, 0.8, 0.2)
+    TargetLabel.TextSize = 14
+    TargetLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TargetLabel.Font = Enum.Font.SourceSansBold
+    TargetLabel.Parent = TargetContainer
+    TargetLabel.ZIndex = 12    
+    local CopyBtn = Instance.new("TextButton")
+    CopyBtn.Size = UDim2.new(0.25, -5, 0.7, 0)
+    CopyBtn.Position = UDim2.new(0.73, 5, 0.15, 0)
+    CopyBtn.BackgroundColor3 = Color3.new(0.3, 0.3, 0.4)
+    CopyBtn.Text = "复制名称"
+    CopyBtn.TextColor3 = Color3.new(1, 1, 1)
+    CopyBtn.TextSize = 14
+    CopyBtn.Font = Enum.Font.SourceSansBold
+    CopyBtn.Parent = TargetContainer
+    CopyBtn.ZIndex = 12    
+    local CopyCorner = Instance.new("UICorner")
+    CopyCorner.CornerRadius = UDim.new(0, 4)
+    CopyCorner.Parent = CopyBtn  
+    CopyBtn.MouseButton1Click:Connect(function()
+        setclipboard("[UPD]🚀矛训练！")
+        CopyBtn.Text = "已复制!"
+        CopyBtn.BackgroundColor3 = Color3.new(0.2, 0.6, 0.3)
+        task.wait(1)
+        CopyBtn.Text = "复制名称"
+        CopyBtn.BackgroundColor3 = Color3.new(0.3, 0.3, 0.4)
+    end)   
+    local ButtonContainer = Instance.new("Frame")
+    ButtonContainer.Size = UDim2.new(1, -30, 0, 30)
+    ButtonContainer.Position = UDim2.new(0, 15, 1, -40)
+    ButtonContainer.BackgroundTransparency = 1
+    ButtonContainer.Parent = ErrorFrame
+    ButtonContainer.ZIndex = 11    
+    local LeaveBtn = Instance.new("TextButton")
+    LeaveBtn.Size = UDim2.new(0.45, -5, 1, 0)
+    LeaveBtn.Position = UDim2.new(0, 0, 0, 0)
+    LeaveBtn.BackgroundColor3 = Color3.new(0.27451, 0.27451, 0.27451)
+    LeaveBtn.BorderColor3 = Color3.new(0.141176, 0.141176, 0.141176)
+    LeaveBtn.Text = "离开游戏"
+    LeaveBtn.TextColor3 = Color3.new(1, 1, 1)
+    LeaveBtn.TextSize = 15
+    LeaveBtn.Font = Enum.Font.SourceSans
+    LeaveBtn.Parent = ButtonContainer
+    LeaveBtn.ZIndex = 12    
+    local RejoinBtn = Instance.new("TextButton")
+    RejoinBtn.Size = UDim2.new(0.45, -5, 1, 0)
+    RejoinBtn.Position = UDim2.new(0.55, 5, 0, 0)
+    RejoinBtn.BackgroundColor3 = Color3.new(0.27451, 0.27451, 0.27451)
+    RejoinBtn.BorderColor3 = Color3.new(0.141176, 0.141176, 0.141176)
+    RejoinBtn.Text = "重新连接"
+    RejoinBtn.TextColor3 = Color3.new(1, 1, 1)
+    RejoinBtn.TextSize = 15
+    RejoinBtn.Font = Enum.Font.SourceSans
+    RejoinBtn.Parent = ButtonContainer
+    RejoinBtn.ZIndex = 12  
+    local function setupButtonHover(button)
+        button.MouseEnter:Connect(function()
+            button.BackgroundColor3 = Color3.new(0.352941, 0.352941, 0.352941)
+        end)
+        button.MouseLeave:Connect(function()
+            button.BackgroundColor3 = Color3.new(0.27451, 0.27451, 0.27451)
+        end)
+        button.MouseButton1Down:Connect(function()
+            button.BackgroundColor3 = Color3.new(0.196078, 0.196078, 0.196078)
+        end)
+        button.MouseButton1Up:Connect(function()
+            button.BackgroundColor3 = Color3.new(0.352941, 0.352941, 0.352941)
+        end)
+    end   
+    setupButtonHover(LeaveBtn)
+    setupButtonHover(RejoinBtn)
+    setupButtonHover(CopyBtn)    
+    LeaveBtn.MouseButton1Click:Connect(function()
+        game:Shutdown()
+    end)    
+    RejoinBtn.MouseButton1Click:Connect(function()
+        local success, err = pcall(function()
+            TeleportService:Teleport(game.PlaceId)
+        end)
+        if not success then
+            warn("重新加入失败: " .. tostring(err))
+        end
+    end)   
+    UserInputService.ModalEnabled = true   
+    ErrorGui.Destroying:Connect(function()
+        UserInputService.ModalEnabled = false
+    end)   
+    return
+end
+local ThrowRemote = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Throw")
+local autoThrowEnabled = false
+local autoThrowThread = nil
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SpearTrainUI"
+ScreenGui.Parent = pg
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 340, 0, 200)
+MainFrame.Position = UDim2.new(0.03, 0, 0.2, 0)
+MainFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.12)
+MainFrame.BorderSizePixel = 0
+MainFrame.ClipsDescendants = true
+MainFrame.Parent = ScreenGui
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 6)
+corner.Parent = MainFrame
+local DragBar = Instance.new("Frame")
+DragBar.Size = UDim2.new(1, 0, 0, 30)
+DragBar.BackgroundColor3 = Color3.new(0.15, 0.15, 0.18)
+DragBar.BorderSizePixel = 0
+DragBar.Parent = MainFrame
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(0, 30, 0, 30)
+ToggleBtn.BackgroundTransparency = 1
+ToggleBtn.Text = "−"
+ToggleBtn.TextSize = 18
+ToggleBtn.TextColor3 = Color3.new(1,1,1)
+ToggleBtn.Parent = DragBar
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -170, 1, 0)
+Title.Position = UDim2.new(0, 35, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "[UPD]🚀矛训练！脚本"
+Title.TextColor3 = Color3.new(1, 0.9, 0.2)
+Title.TextSize = 14
+Title.Font = Enum.Font.SourceSansBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = DragBar
+local TimeLabel = Instance.new("TextLabel")
+TimeLabel.Size = UDim2.new(0, 130, 1, 0)
+TimeLabel.Position = UDim2.new(1, -160, 0, 0)
+TimeLabel.BackgroundTransparency = 1
+TimeLabel.Text = ""
+TimeLabel.TextColor3 = Color3.new(0.8,0.8,0.8)
+TimeLabel.TextSize = 13
+TimeLabel.Parent = DragBar
+RunService.Heartbeat:Connect(function()
+    local dt = os.date("*t")
+    TimeLabel.Text = string.format("%04d-%02d-%02d %02d:%02d:%02d",
+        dt.year, dt.month, dt.day, dt.hour, dt.min, dt.sec)
+end)
+local Content = Instance.new("Frame")
+Content.Size = UDim2.new(1, 0, 1, -30)
+Content.Position = UDim2.new(0, 0, 0, 30)
+Content.BackgroundTransparency = 1
+Content.Visible = true
+Content.Parent = MainFrame
+local Category = Instance.new("TextLabel")
+Category.Size = UDim2.new(0, 100, 0, 28)
+Category.Position = UDim2.new(0, 10, 0, 15)
+Category.BackgroundTransparency = 1
+Category.Text = "投掷"
+Category.TextColor3 = Color3.new(1,1,1)
+Category.TextSize = 14
+Category.Font = Enum.Font.SourceSansBold
+Category.Parent = Content
+local Line = Instance.new("Frame")
+Line.Size = UDim2.new(0, 1, 0, 150)
+Line.Position = UDim2.new(0, 115, 0, 17)
+Line.BackgroundColor3 = Color3.new(0.3,0.3,0.3)
+Line.BorderSizePixel = 0
+Line.Parent = Content
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Size = UDim2.new(1, -130, 1, -20)
+Scroll.Position = UDim2.new(0, 125, 0, 10)
+Scroll.BackgroundTransparency = 1
+Scroll.BorderSizePixel = 0
+Scroll.ScrollBarThickness = 3
+Scroll.CanvasSize = UDim2.new(0,0,0, 100)
+Scroll.Parent = Content
+local Item1 = Instance.new("Frame")
+Item1.Size = UDim2.new(1, -10, 0, 35)
+Item1.Position = UDim2.new(0, 5, 0, 5)
+Item1.BackgroundTransparency = 1
+Item1.Parent = Scroll
+local Btn1 = Instance.new("TextLabel")
+Btn1.Size = UDim2.new(0.7, 0, 1, 0)
+Btn1.BackgroundColor3 = Color3.new(0.2,0.2,0.24)
+Btn1.TextColor3 = Color3.new(1,1,1)
+Btn1.Text = "在任意地方投掷"
+Btn1.TextSize = 14
+Btn1.Parent = Item1
+local Switch1 = Instance.new("TextButton")
+Switch1.Size = UDim2.new(0.25, 0, 0.8, 0)
+Switch1.Position = UDim2.new(0.72, 0, 0.1, 0)
+Switch1.BackgroundColor3 = Color3.new(0.3,0.3,0.35)
+Switch1.TextColor3 = Color3.new(1,1,1)
+Switch1.Text = "投掷"
+Switch1.TextSize = 14
+Switch1.Parent = Item1
+local c1 = Instance.new("UICorner")
+c1.CornerRadius = UDim.new(0,4)
+c1.Parent = Btn1
+local c2 = Instance.new("UICorner")
+c2.CornerRadius = UDim.new(0,4)
+c2.Parent = Switch1
+Switch1.MouseButton1Click:Connect(function()
+    Switch1.BackgroundColor3 = Color3.new(0.2, 0.6, 0.3)
+    task.wait(0.1)
+    ThrowRemote:FireServer("City")
+    Switch1.BackgroundColor3 = Color3.new(0.3,0.3,0.35)
+end)
+local Item2 = Instance.new("Frame")
+Item2.Size = UDim2.new(1, -10, 0, 35)
+Item2.Position = UDim2.new(0, 5, 0, 45)
+Item2.BackgroundTransparency = 1
+Item2.Parent = Scroll
+local Btn2 = Instance.new("TextLabel")
+Btn2.Size = UDim2.new(0.7, 0, 1, 0)
+Btn2.BackgroundColor3 = Color3.new(0.2,0.2,0.24)
+Btn2.TextColor3 = Color3.new(1,1,1)
+Btn2.Text = "自动投掷"
+Btn2.TextSize = 14
+Btn2.Parent = Item2
+local Switch2 = Instance.new("TextButton")
+Switch2.Size = UDim2.new(0.25, 0, 0.8, 0)
+Switch2.Position = UDim2.new(0.72, 0, 0.1, 0)
+Switch2.BackgroundColor3 = Color3.new(0.3,0.3,0.35)
+Switch2.TextColor3 = Color3.new(1,1,1)
+Switch2.Text = "关闭"
+Switch2.TextSize = 14
+Switch2.Parent = Item2
+local c3 = Instance.new("UICorner")
+c3.CornerRadius = UDim.new(0,4)
+c3.Parent = Btn2
+local c4 = Instance.new("UICorner")
+c4.CornerRadius = UDim.new(0,4)
+c4.Parent = Switch2
+Switch2.MouseButton1Click:Connect(function()
+    autoThrowEnabled = not autoThrowEnabled
+    if autoThrowEnabled then
+        Switch2.Text = "开启"
+        Switch2.BackgroundColor3 = Color3.new(0.2, 0.6, 0.3)
+        if autoThrowThread then
+            task.cancel(autoThrowThread)
+        end
+        autoThrowThread = task.spawn(function()
+            while autoThrowEnabled do
+                ThrowRemote:FireServer("City")
+                task.wait(1)
+            end
+        end)
+    else
+        Switch2.Text = "关闭"
+        Switch2.BackgroundColor3 = Color3.new(0.3,0.3,0.35)
+        autoThrowEnabled = false
+        if autoThrowThread then
+            task.cancel(autoThrowThread)
+            autoThrowThread = nil
+        end
+    end
+end)
+local dragging = false
+local dragStart, startPos
+
+DragBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        MainFrame.Position = UDim2.new(
+            startPos.X.Scale, startPos.X.Offset + delta.X,
+            startPos.Y.Scale, startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+local isExpanded = true
+ToggleBtn.MouseButton1Click:Connect(function()
+    isExpanded = not isExpanded
+    if isExpanded then
+        MainFrame.Size = UDim2.new(0, 340, 0, 200)
+        ToggleBtn.Text = "−"
+        Content.Visible = true
+    else
+        MainFrame.Size = UDim2.new(0, 340, 0, 30)
+        ToggleBtn.Text = "+"
+        Content.Visible = false
+    end
+end)
